@@ -25,7 +25,8 @@
     "build": "tsc",
     "lint": "eslint --ext=.ts src",
     "test": "jest",
-    "test:lambda": "yarn build && lambda-local -l ./dist/index.js -e ./dist/mock-events/default -h randomGet"
+    "test:lambda": "yarn build && lambda-local -l ./dist/index.js -e ./dist/mock-events/default -h randomGet",
+    "test:lambdaBreed": "yarn build && lambda-local -l ./dist/index.js -e ./dist/mock-events/default -h breedsGet"
   },
   "version": "1.0.0"
 }
