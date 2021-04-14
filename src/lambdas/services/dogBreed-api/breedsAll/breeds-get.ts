@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { Response } from './types'
+import { Response } from '../types'
 
 interface DogBreedResponse extends Response {
   body: DogBreedList
