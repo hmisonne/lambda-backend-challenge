@@ -5,9 +5,28 @@ const mockedFetch: jest.Mock = fetch as any
 
 jest.mock('node-fetch')
 
+const mockResponse = {
+  message: [
+    'affenpinscher',
+    'shepherd australian',
+    'basenji',
+    'beagle',
+    'boston bulldog',
+    'english bulldog',
+    'french bulldog',
+  ],
+}
+
 describe('breeds-get handler', () => {
   const mockPayload = {
-    message: ['dogBreedExample'],
+    message: {
+      affenpinscher: [],
+      australian: ['shepherd'],
+      basenji: [],
+      beagle: [],
+      bulldog: ['boston', 'english', 'french'],
+    },
+    status: 'success',
   }
   beforeEach(() => {
     mockedFetch.mockReturnValueOnce({
@@ -19,6 +38,6 @@ describe('breeds-get handler', () => {
 
   it('returns payload from fetch request', async () => {
     const response = await handler()
-    expect(response).toMatchObject({ body: mockPayload })
+    expect(response).toMatchObject({ body: mockResponse })
   })
 })
