@@ -5,6 +5,7 @@
     "@types/node-fetch": "^2.5.2",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
     "@typescript-eslint/parser": "^2.5.0",
+    "abort-controller": "^3.0.0",
     "aws-lambda": "^1.0.5",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -25,7 +26,8 @@
     "build": "tsc",
     "lint": "eslint --ext=.ts src",
     "test": "jest",
-    "test:lambda": "yarn build && lambda-local -l ./dist/index.js -e ./dist/mock-events/default -h randomGet"
+    "test:lambda": "yarn build && lambda-local -l ./dist/index.js -e ./dist/mock-events/default -h randomGet",
+    "test:lambdaBreed": "yarn build && lambda-local -l ./dist/index.js -e ./dist/mock-events/default -h breedsGet"
   },
   "version": "1.0.0"
 }
