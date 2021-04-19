@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import { AbortSignal } from 'abort-controller'
 import { Response } from '../types'
 
 interface DogBreedResponse extends Response {
@@ -23,7 +24,6 @@ interface DogBreedDetails {
 }
 
 export async function handler(): Promise<DogBreedResponse | ErrorResponse> {
-  //
   try {
     const res = await fetch('https://dog.ceo/api/breeds/list/all')
     const payload: DogBreeds = await res.json()
@@ -43,10 +43,17 @@ export async function handler(): Promise<DogBreedResponse | ErrorResponse> {
         message: result,
       },
     }
-  } catch (err: unknown) {
+  } catch (err: any) {
+    if (err instanceof AbortSignal && err.aborted === true) {
+      return {
+        message: 'timeout error',
+        statusCode: 500,
+      }
+    }
+
     return {
+      message: err,
       statusCode: 500,
-      message: 'Something went wrong',
     }
   }
 }
