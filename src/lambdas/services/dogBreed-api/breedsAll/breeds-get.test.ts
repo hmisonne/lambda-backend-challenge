@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import AbortController from 'abort-controller'
 import { handler } from './breeds-get'
 
 const mockedFetch: jest.Mock = fetch as any
@@ -28,16 +29,27 @@ describe('breeds-get handler', () => {
     },
     status: 'success',
   }
-  beforeEach(() => {
+
+  it('returns payload from fetch request', async () => {
     mockedFetch.mockReturnValueOnce({
       json: () => {
         return mockPayload
       },
     })
-  })
-
-  it('returns payload from fetch request', async () => {
     const response = await handler()
     expect(response).toMatchObject({ body: mockResponse })
+  })
+
+  it('returns an error from fetch request timeout', async () => {
+    const controller = new AbortController()
+    controller.abort()
+    const { signal } = controller
+    mockedFetch.mockRejectedValue(signal)
+
+    const response = await handler()
+    expect(response).toMatchObject({
+      message: 'timeout error',
+      statusCode: 500,
+    })
   })
 })
